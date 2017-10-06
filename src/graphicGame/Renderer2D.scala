@@ -2,6 +2,9 @@
 package graphicGame
 import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.image.Image
+import graphicGame.Enemy
+import graphicGame.Level
+import graphicGame.Player
 
 
 /**
@@ -14,12 +17,12 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
   private var lastCenterY = 0.0
 
   // Put variables for images here
-  private val floorImage = new Image("file:/Users/Allison/Documents/SCALA/Graphic Game/src/graphicGame/bgImage.jpg")
-  private val wallImage = new Image("file:/Graphic Game/src/graphicGame/wall.png")
-  private val playerImage = new Image("file:/Graphic Game/src/graphicGame/myface.jpg")
-  //private val enemyImage = new Image("http://www.ddw-online.com/library/sid32/preventing-pandemics.jpg")
+  private val floorImage = new Image("file:ocean.jpg")
+  private val wallImage = new Image("file:reefborder.png")
+  private val playerImage = new Image("file:pythagaras.png")
+  private val enemyImage = new Image("file:eel.png")
   //private val generatorImage = new Image("file:images/generator.png")
-  //private val bulletImage = new Image("file:images/bullet.png")
+  private val bulletImage = new Image("file:lightning")
 
   /**
    * These two methods are used to figure out where to draw things. They are used by the render.
@@ -60,10 +63,11 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
     for (e <- level.entities) {
       val img = e match {
         case p: Player => playerImage
-        //case e: Enemy  => enemyImage
+        case e: Enemy  => enemyImage
         //case b: Bullet => bulletImage
         // case g: Generator => generatorImage
       }
+
       if (level.maze.wrap) {
         for (rx <- -1 to 1; ry <- -1 to 1)
           gc.drawImage(img, blocksToPixelsX(e.cx - e.width / 2 + rx * level.maze.width), blocksToPixelsY(e.cy - e.height / 2 + ry * level.maze.height), e.width * blockSize, e.height * blockSize)

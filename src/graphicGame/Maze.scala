@@ -1,7 +1,5 @@
 package graphicGame
 
-  import scalafx.scene.shape.Shape
-
 class Maze(val cellSize: Int, val wrap: Boolean, wallsInput: Array[Array[Int]]) {
   require(cellSize > 1, "The cell size must be at least 2.")
   require(wallsInput.length > 0 && wallsInput(0).length > 0, "Dimensions of maze must both be greater than 0.")
