@@ -9,6 +9,7 @@ class Player(private var _cx: Double, private var _cy: Double, val width: Double
   private var down = false
   private var left = false
   private var right = false
+  var score = 0
 
   def cx = _cx
   def cy = _cy

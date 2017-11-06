@@ -39,14 +39,9 @@ class Enemy(private var _x:Double, private var _y: Double, level:Level) extends 
       _y += dy
     }
   }
-  def whichWay(e1:Entity,e2:Entity) = {
-  
+  def shock():Unit = {
+    
   }
-   
-  
- // def newBolt: Entity = {
-//    while( new Bolt
-//  }
 }
 
 object Enemy {
