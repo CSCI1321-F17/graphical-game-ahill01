@@ -10,7 +10,7 @@ class Bolt(private var _x: Double, private var _y: Double, level: Level, vx: Dou
     _y -= dt
     _x -= dt
   }
-
+ def move(dx: Double, dy: Double): Unit = {???}
   // def shock: Unit = {
   // if (Bolt.intersect(Player)) {
   //  Player.score-1

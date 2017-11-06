@@ -37,7 +37,7 @@ class Player(private var _cx: Double, private var _cy: Double, val width: Double
 
 
 
-  private def move(dx: Double, dy: Double): Unit = {
+  override def move(dx: Double, dy: Double): Unit = {
     if (level.maze.isClear(cx+dx, cy+dy, width, height)) {
       _cx += dx
       _cy += dy
