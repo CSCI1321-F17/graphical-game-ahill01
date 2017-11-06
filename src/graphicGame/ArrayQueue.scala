@@ -1,6 +1,5 @@
 package graphicGame
 import scala.reflect.ClassTag
-import graphicGame.MyQueue
 
 class ArrayQueue[A: ClassTag] extends MyQueue[A] {
   private var data = new Array[A](10)

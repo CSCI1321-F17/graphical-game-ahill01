@@ -2,9 +2,6 @@
 
 package graphicGame
 
-import graphicGame.Level
-
-import graphicGame.Entity
 
 class Enemy(private var _x:Double, private var _y: Double, level:Level) extends Entity {
   level += this
@@ -14,6 +11,7 @@ class Enemy(private var _x:Double, private var _y: Double, level:Level) extends 
   def height: Double = 2
   
   def update(dt:Double): Unit = {
+   
     _y -=dt
     _x -=dt
   }
@@ -23,7 +21,12 @@ class Enemy(private var _x:Double, private var _y: Double, level:Level) extends 
     if (intersectX && intersectY) true else false
   }
 
- 
+  private def move(dx: Double, dy: Double): Unit = {
+    if (level.maze.isClear(cx+dx, cy+dy, width, height)) {
+      _x += dx
+      _y += dy
+    }
+  }
  // def newBolt: Entity = {
 //    while( new Bolt
 //  }

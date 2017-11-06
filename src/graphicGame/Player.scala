@@ -1,8 +1,6 @@
 package graphicGame
 
-import graphicGame.Level
 
-import graphicGame.Entity
 
 class Player(private var _cx: Double, private var _cy: Double, val width: Double, val height: Double, level: Level) extends Entity {
   level += this
@@ -23,7 +21,10 @@ class Player(private var _cx: Double, private var _cy: Double, val width: Double
   def downReleased = down = false
   def leftReleased = left = false
   def rightReleased = right = false
-
+/*
+ * @param: current x or y location
+ * @return: 
+ */
   def update(dt: Double): Unit = {
     if (up) move(0, -dt*speed)
     if (down) move(0, dt*speed)

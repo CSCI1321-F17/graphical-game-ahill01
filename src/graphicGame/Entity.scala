@@ -8,7 +8,6 @@ trait Entity {
   def width: Double
   def height: Double
   def update(dt: Double): Unit
-  
  
 }
 object Entity {

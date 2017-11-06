@@ -2,9 +2,6 @@
 package graphicGame
 import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.image.Image
-import graphicGame.Enemy
-import graphicGame.Level
-import graphicGame.Player
 
 
 /**

@@ -1,8 +1,5 @@
 package graphicGame
-import Maze._
-import graphicGame.Maze
-import graphicGame.Level
-import graphicGame.Entity
+
 
 class Bolt(private var _x: Double, private var _y: Double, level: Level, vx: Double, vy: Double) extends Entity {
   def cx: Double = _x

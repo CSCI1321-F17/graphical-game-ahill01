@@ -28,11 +28,12 @@ object Main extends JFXApp {
 
       val gc = canvas.graphicsContext2D
 
+ 
       val renderer = new Renderer2D(gc, 20)
-       val maze = Maze(6, false, 20, 20, 0.6)
+      val maze = Maze(6, false, 20, 20, 0.6)
       val level1 = new Level(maze, Nil)
       val player = new Player(15,15, 2, 2, level1)
-      val enemy = new Enemy(0, 0, level1)
+      val enemy = new Enemy(20, 20, level1)
 
       onKeyPressed = (ke: KeyEvent) => {
         ke.code match {
