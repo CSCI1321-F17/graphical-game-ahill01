@@ -2,6 +2,8 @@
 package graphicGame
 import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.image.Image
+import scalafx.scene.canvas.GraphicsContext
+import scalafx.scene.image.Image
 
 
 /**
