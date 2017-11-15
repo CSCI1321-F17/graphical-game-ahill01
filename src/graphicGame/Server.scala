@@ -1,7 +1,5 @@
 package graphicGame
 
-package graphicGame
-
 import java.rmi.server.UnicastRemoteObject
 import java.rmi.Naming
 import java.rmi.registry.LocateRegistry
@@ -12,7 +10,7 @@ import scala.collection.mutable
   def connectPlayer(client:RemoteClient):Unit
   def disconnect(client:RemoteClient):Unit
   def updateLevel(clients:Seq[RemoteClient]):Unit
-  }
+}
 
 object Server extends UnicastRemoteObject with RemoteServer {
   LocateRegistry.createRegistry(1099)
@@ -27,9 +25,9 @@ object Server extends UnicastRemoteObject with RemoteServer {
     clients -= client
   }
   def addClients(clients:Seq[RemoteClient]):Unit = {
-     clients.foreach()
-    for (i <- clients.length) {
-        level += clients(i) 
+  //   clients.foreach()
+  //  for (i <- clients.length) {
+  //      level += clients(i) 
+   ???
    } 
-  }
-} 
+  } 
