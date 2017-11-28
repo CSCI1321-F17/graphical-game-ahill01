@@ -33,6 +33,8 @@ object Server extends UnicastRemoteObject with RemoteServer with App {
   def disconnect(client:RemoteClient):Unit = {
     clients -= client
   }
+ /*
+  * 
  
   def sendLevel(c:RemoteClient, level:Level):Unit = {
     buildLevel(level)
@@ -43,12 +45,12 @@ object Server extends UnicastRemoteObject with RemoteServer with App {
       }  
     }
   }
-  
+   */
   /*
    * @param Level
    * converts level to a PassableLevel
    */
-  private def buildLevel(level:Level):Unit = {
+  def buildLevel(level:Level):Unit = {
     val pEntities = level.entities.map(n => new PassableEntity(n.cx,n.cy,n.width,n.height))
     val pLevel = new PassableLevel(level.maze, pEntities)
     

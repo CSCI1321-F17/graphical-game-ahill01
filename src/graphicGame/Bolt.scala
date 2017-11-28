@@ -1,7 +1,7 @@
 package graphicGame
 
 
-class Bolt(private var _x: Double, private var _y: Double, level: Level, vx: Double, vy: Double) extends Entity {
+class Bolt(private var _x: Double, private var _y: Double, level: Level) extends Entity {
   def cx: Double = _x
   def cy: Double = _y
   def width: Double = 2
@@ -10,7 +10,12 @@ class Bolt(private var _x: Double, private var _y: Double, level: Level, vx: Dou
     _y -= dt
     _x -= dt
   }
- def move(dx: Double, dy: Double): Unit = {???}
+ override def move(dx: Double, dy: Double): Unit = {
+   if (level.maze.isClear(cx+dx, cy+dy, width, height)) {
+      _x += dx
+      _y += dy
+    }
+   }
   
  
   def intersect(other: Entity): Boolean = {

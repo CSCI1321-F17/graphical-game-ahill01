@@ -1,13 +1,15 @@
 package graphicGame
 
-
 class Enemy(private var _x:Double, private var _y: Double, level:Level) extends Entity {
+  /*
+   * enemy is an electric eel that sends out bolts of lightning if you get too close
+   */
   level += this
   def cx: Double = _x
   def cy: Double = _y
   def width: Double = 2
   def height: Double = 2
-  val speed = 2
+  val speed = 3
   
   
   def update(dt:Double): Unit = {
@@ -20,6 +22,7 @@ class Enemy(private var _x:Double, private var _y: Double, level:Level) extends 
    else if(down <= left && down <= right && down <= up) move(0,dt*speed) 
    else if (left <= right && left <= up && left <= down) move(dt*speed,0)
    else move(-dt*speed,0)
+   if(up < 2 || down < 2 || left <2 || right < 2) shock()
   }
   
   def intersect(other: Entity): Boolean = {
@@ -34,11 +37,22 @@ class Enemy(private var _x:Double, private var _y: Double, level:Level) extends 
       _y += dy
     }
   }
+  /*
+   * creates a new bolt of lightening, adds it to the levels' entities
+   * motion is random
+   */
   def shock():Unit = {
-    
+  val z = new Bolt(this.cx,this.cy,this.level)
+  level += z
+  z.move(math.random(),math.random())
   }
+  
+ def hitTarget(target:Player):Unit = {
+ if (intersect(target)) {
+  target.score-1
+  }
+ }
 }
-
 object Enemy {
   
 }

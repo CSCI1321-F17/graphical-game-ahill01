@@ -24,8 +24,8 @@ import scalafx.application.Platform
 
 
 @remote trait RemoteClient {
-  def updateLevel(clients:Seq[RemoteClient]):Unit 
-  def clientUpdate(clients: Seq[RemoteClient]):Unit  
+ // def updateLevel(clients:Seq[RemoteClient]):Unit 
+//  def clientUpdate(clients: Seq[RemoteClient]):Unit  
 }
 
 object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
@@ -112,7 +112,7 @@ object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
 
 
  def updateLevel(level:PassableLevel) = {
-   renderer.render()
+   ???
  } 
   
 }

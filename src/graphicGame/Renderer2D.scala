@@ -6,6 +6,7 @@ import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.image.Image
 
 
+
 /**
  * This is a 2D renderer that with draw your game elements to a Canvas. You should change the
  * images to fit the style of your game. Also, alter the entities to match what you have in
@@ -20,6 +21,7 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
   private val wallImage = new Image("file:reefborder.png")
   private val playerImage = new Image("file:pythagaras.png")
   private val enemyImage = new Image("file:eel.png")
+  private val trashImage = new Image("file:trash.png")
   //private val generatorImage = new Image("file:images/generator.png")
   private val bulletImage = new Image("file:lightning")
 
@@ -63,7 +65,8 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
       val img = e match {
         case p: Player => playerImage
         case e: Enemy  => enemyImage
-        //case b: Bullet => bulletImage
+        case b: Bolt => bulletImage
+        case t: Trash => trashImage
         // case g: Generator => generatorImage
       }
 
