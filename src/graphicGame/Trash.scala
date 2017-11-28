@@ -18,5 +18,15 @@ class Trash (private var _x:Double, private var _y: Double, level:Level) extends
       _x += dx
       _y += dy
     }
-}
-}
+  } 
+ def intersect(other: Entity): Boolean = {
+    val intersectX = (cx - other.cx).abs < (width + other.width) / 2
+    val intersectY = (cy - other.cy).abs < (height + other.height) / 2
+    if (intersectX && intersectY) true else false
+  }
+  def minusPoints(p:Player):Unit = {
+ if (intersect(p)) {
+  p.score-1
+    }
+  }  
+ }
