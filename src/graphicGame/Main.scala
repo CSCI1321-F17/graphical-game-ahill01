@@ -41,6 +41,7 @@ object Main extends JFXApp {
           case KeyCode.Down  => player.downPressed
           case KeyCode.Left  => player.leftPressed
           case KeyCode.Right => player.rightPressed
+          case KeyCode.S => player.sPressed
           case _             =>
         }
       }
@@ -52,6 +53,7 @@ object Main extends JFXApp {
           case KeyCode.Down  => player.downReleased
           case KeyCode.Left  => player.leftReleased
           case KeyCode.Right => player.rightReleased
+          case KeyCode.S => player.sReleased
           case _             =>
         }
       }

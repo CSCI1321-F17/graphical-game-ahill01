@@ -3,7 +3,7 @@ package graphicGame
 
 class Enemy(private var _x:Double, private var _y: Double, level:Level) extends Entity {
   level += this
- def cx: Double = _x
+  def cx: Double = _x
   def cy: Double = _y
   def width: Double = 2
   def height: Double = 2
