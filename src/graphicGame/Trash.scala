@@ -29,4 +29,5 @@ class Trash (private var _x:Double, private var _y: Double, level:Level) extends
   p.score-1
     }
   }  
+  def getStyle:Int = 3
  }

@@ -8,52 +8,53 @@ import scala.collection.mutable
 import java.rmi.RemoteException
 
 @remote trait RemoteServer {
-  def connectPlayer(client:RemoteClient):Unit
-  def disconnect(client:RemoteClient):Unit
-  def buildLevel(level:Level):Unit
+  def connectPlayer(client: RemoteClient): RemotePlayer
+  def disconnect(client: RemoteClient): Unit
 }
 
 object Server extends UnicastRemoteObject with RemoteServer with App {
   LocateRegistry.createRegistry(1099)
   Naming.rebind("GraphicGameServer", this)
-  
+
   private val clients = mutable.Buffer[RemoteClient]()
-  
+  val maze = Maze(6, false, 20, 20, 0.6)
+  val level1 = new Level(maze, Nil)
   /*
    * connects player to server, adds them to the maze
    */
-  def connectPlayer(client:RemoteClient):Unit = {
+  def connectPlayer(client: RemoteClient): RemotePlayer = {
     clients += client
-  
+    new Player(15, 15, 2, 2, level1)
   }
   /*
    * @param Client
    * removes client from the list of clients if they disconnect or have gone inactive
    */
-  def disconnect(client:RemoteClient):Unit = {
+  def disconnect(client: RemoteClient): Unit = {
     clients -= client
   }
- /*
-  * 
- 
-  def sendLevel(c:RemoteClient, level:Level):Unit = {
-    buildLevel(level)
-    clients.foreach{c => 
-    try { c.updateLevel(clients) }
-    catch {
-      case ex: RemoteException => "Couldn't update level"
-      }  
+
+  def sendLevel(plevel: PassableLevel): Unit = {
+   // println("sending")
+    clients.foreach { c =>
+    //  println(c)
+      try { c.updateLevel(plevel) }
+      catch {
+        case ex: RemoteException => ex.printStackTrace
+      }
     }
   }
-   */
-  /*
-   * @param Level
-   * converts level to a PassableLevel
-   */
-  def buildLevel(level:Level):Unit = {
-    val pEntities = level.entities.map(n => new PassableEntity(n.cx,n.cy,n.width,n.height))
-    val pLevel = new PassableLevel(level.maze, pEntities)
-    
+
+  var lastTime = 0L
+
+  while (true) {
+    val time = System.nanoTime
+    if (lastTime > 0) {
+      val dt = (time - lastTime) * 1e-9
+      level1.updateAll(dt)
+      sendLevel(level1.buildLevel())
+    }
+    lastTime = time
+
   }
- 
- }
+}

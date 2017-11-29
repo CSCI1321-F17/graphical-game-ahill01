@@ -4,7 +4,7 @@ import java.rmi.server.UnicastRemoteObject
 
 
 
-class Player(private var _x: Double, private var _y: Double, val width: Double, val height: Double, level: Level) extends UnicastRemoteObject with Entity {
+class Player(private var _x: Double, private var _y: Double, val width: Double, val height: Double, level: Level) extends UnicastRemoteObject with Entity with RemotePlayer{
   level += this
 
   private var up = false
@@ -13,11 +13,12 @@ class Player(private var _x: Double, private var _y: Double, val width: Double, 
   private var right = false
   private var s = false
   var score = 10
+def getStyle:Int = 2
 
   def cx = _x
   def cy = _y
  val speed = 3
-  def upPressed = up = true
+  def upPressed = up = true;println("up")
   def downPressed = down = true
   def leftPressed = left = true
   def rightPressed = right = true
@@ -32,7 +33,7 @@ class Player(private var _x: Double, private var _y: Double, val width: Double, 
  * @return: 
  */
   def update(dt: Double): Unit = {
-    if (up) move(0, -dt*speed)
+    if (up) {move(0, -dt*speed);println("moving up"+ cy)}
     if (down) move(0, dt*speed)
     if (left) move(-dt*speed, 0)
     if (right) move(dt*speed, 0)

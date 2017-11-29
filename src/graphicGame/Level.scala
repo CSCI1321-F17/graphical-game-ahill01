@@ -20,6 +20,12 @@ class Level(val maze: Maze, private var _entities: Seq[Entity]) {
   def intersect(e: Entity, p: Entity): Boolean = {
     if (e.cx == p.cx && e.cy == p.cy) true else false
   }
+   def buildLevel():PassableLevel = {
+    val pEntities = entities.map(n => new PassableEntity(n.cx,n.cy,n.width,n.height,n.getStyle))
+    val pLevel = new PassableLevel(maze, pEntities)
+    pLevel
+  }
+
   /*
    * breadth first search between 2 entities
    * @param entity that is moving, entity that is being chased

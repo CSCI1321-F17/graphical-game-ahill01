@@ -1,5 +1,5 @@
 package graphicGame
 
-class PassableLevel(maze:Maze, entities:Seq[PassableEntity]) extends Serializable {
+class PassableLevel(val maze:Maze, val entities:Seq[PassableEntity]) extends Serializable {
   
 }

@@ -29,7 +29,7 @@ class Bolt(private var _x: Double, private var _y: Double, level: Level) extends
   target.score-1
   }
  }
-
+def getStyle:Int = 4
   
 
 }

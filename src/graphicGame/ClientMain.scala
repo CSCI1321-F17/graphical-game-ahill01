@@ -22,10 +22,9 @@ import java.rmi.RemoteException
 import scalafx.collections.ObservableBuffer
 import scalafx.application.Platform
 
-
 @remote trait RemoteClient {
- // def updateLevel(clients:Seq[RemoteClient]):Unit 
-//  def clientUpdate(clients: Seq[RemoteClient]):Unit  
+  def updateLevel(pLevel: PassableLevel): Unit
+  //  def clientUpdate(clients: Seq[RemoteClient]):Unit  
 }
 
 object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
@@ -33,43 +32,28 @@ object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
   dialog.title = "Server Machine"
   dialog.contentText = "What server do you want to connect to?"
   dialog.headerText = "Server Name"
-  val (_name, server) = dialog.showAndWait() match {
+  val server = dialog.showAndWait() match {
     case Some(machine) =>
-      Naming.lookup(s"rmi://$machine/ChatServer") match {
-        case server: RemoteServer =>
-          val dialog = new TextInputDialog("")
-          dialog.title = "Player Name"
-          dialog.contentText = "What is your name?"
-          dialog.headerText = "Player Name"
-          dialog.showAndWait() match {
-            case Some(name) => (name, server)
-            case None => sys.exit(0)
-          }
+      Naming.lookup(s"rmi://$machine/GraphicGameServer") match {
+        case server: RemoteServer => server
+
         case _ =>
           println("There were problems.")
           sys.exit(0)
       }
     case None => sys.exit(0)
   }
-  server.connectPlayer(this)
-  
+  val canvas = new Canvas(800, 600)
+  val gc = canvas.graphicsContext2D
+  val renderer = new Renderer2D(gc, 20)
+  val player = server.connectPlayer(this)
+
   stage = new JFXApp.PrimaryStage {
     title = "Graphic Game"
 
     scene = new Scene(800, 600) {
 
-      val canvas = new Canvas(800, 600)
-
       content = canvas
-
-      val gc = canvas.graphicsContext2D
-
- 
-      val renderer = new Renderer2D(gc, 20)
-      val maze = Maze(6, false, 20, 20, 0.6)
-      val level1 = new Level(maze, Nil)
-      val player = new Player(15,15, 2, 2, level1)
-      val enemy = new Enemy(20, 20, level1)
 
       onKeyPressed = (ke: KeyEvent) => {
         ke.code match {
@@ -92,27 +76,11 @@ object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
         }
       }
 
-      // Used for smooth motion
-      var lastTime = 0L
-
-      val timer = AnimationTimer(time => {
-        renderer.render(level1, player.cx, player.cy)
-
-        // Code for doing smooth motion
-        if (lastTime > 0) {
-          val dt = (time - lastTime) * 1e-9
-          level1.updateAll(dt)
-        }
-        lastTime = time
-
-      })
-      timer.start()
     }
   }
 
+  def updateLevel(level: PassableLevel): Unit = {
+    if(renderer != null) {Platform.runLater { renderer.render(level, player.cx, player.cy) }}
+  }
 
- def updateLevel(level:PassableLevel) = {
-   ???
- } 
-  
 }

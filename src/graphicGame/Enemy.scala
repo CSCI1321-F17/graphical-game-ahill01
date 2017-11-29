@@ -11,6 +11,7 @@ class Enemy(private var _x:Double, private var _y: Double, level:Level) extends 
   def height: Double = 2
   val speed = 3
   
+  def getStyle:Int = 1
   
   def update(dt:Double): Unit = {
    val p = level.players.head

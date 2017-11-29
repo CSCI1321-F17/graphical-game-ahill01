@@ -40,7 +40,7 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
   /**
    * This method is called to render things to the screen.
    */
-  def render(level: Level, cx: Double, cy: Double): Unit = {
+  def render(level: PassableLevel, cx: Double, cy: Double): Unit = {
     lastCenterX = cx
     lastCenterY = cy
 
@@ -62,11 +62,11 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
 
     // Draw entities
     for (e <- level.entities) {
-      val img = e match {
-        case p: Player => playerImage
-        case e: Enemy  => enemyImage
-        case b: Bolt => bulletImage
-        case t: Trash => trashImage
+      val img = e.style match {
+        case 2 => playerImage
+        case 1  => enemyImage
+        case 4 => bulletImage
+        case 3 => trashImage
         // case g: Generator => generatorImage
       }
 
@@ -74,6 +74,7 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
         for (rx <- -1 to 1; ry <- -1 to 1)
           gc.drawImage(img, blocksToPixelsX(e.cx - e.width / 2 + rx * level.maze.width), blocksToPixelsY(e.cy - e.height / 2 + ry * level.maze.height), e.width * blockSize, e.height * blockSize)
       } else {
+        println(e.style, e.cy)
         gc.drawImage(img, blocksToPixelsX(e.cx - e.width / 2), blocksToPixelsY(e.cy - e.height / 2), e.width * blockSize, e.height * blockSize)
       }
     }

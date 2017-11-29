@@ -62,7 +62,7 @@ object Main extends JFXApp {
       var lastTime = 0L
 
       val timer = AnimationTimer(time => {
-        renderer.render(level1, player.cx, player.cy)
+        renderer.render(level1.buildLevel, player.cx, player.cy)
 
         // Code for doing smooth motion
         if (lastTime > 0) {
