@@ -35,7 +35,7 @@ object Server extends UnicastRemoteObject with RemoteServer with App {
   }
 
   def sendLevel(plevel: PassableLevel): Unit = {
-   // println("sending")
+   println(plevel)
     clients.foreach { c =>
     //  println(c)
       try { c.updateLevel(plevel) }
@@ -46,13 +46,16 @@ object Server extends UnicastRemoteObject with RemoteServer with App {
   }
 
   var lastTime = 0L
-
+  var lastUpdate = 0L
   while (true) {
     val time = System.nanoTime
     if (lastTime > 0) {
       val dt = (time - lastTime) * 1e-9
       level1.updateAll(dt)
-      sendLevel(level1.buildLevel())
+      if(time-lastUpdate > 0.1) {
+        sendLevel(level1.buildLevel())
+        lastUpdate = time
+      }
     }
     lastTime = time
 

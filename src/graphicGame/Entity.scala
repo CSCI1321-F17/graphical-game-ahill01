@@ -1,5 +1,3 @@
-
-
 package graphicGame
 
 trait Entity {
@@ -16,9 +14,5 @@ object Entity {
  def intersect(e1:Entity, e2:Entity):Boolean = {
    if (e1.cx == e2.cx && e1.cy == e2.cy) true else false
  }
- trait EntityType extends Enumeration {
-  def Player: Value
-  def Enemy: Value
-  def Bolt:Value
- }
+
 }

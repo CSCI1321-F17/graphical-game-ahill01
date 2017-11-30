@@ -41,6 +41,7 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
    * This method is called to render things to the screen.
    */
   def render(level: PassableLevel, cx: Double, cy: Double): Unit = {
+     println("Renderer"+level)
     lastCenterX = cx
     lastCenterY = cy
 

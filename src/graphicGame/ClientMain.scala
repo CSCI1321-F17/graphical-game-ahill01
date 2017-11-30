@@ -80,7 +80,10 @@ object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
   }
 
   def updateLevel(level: PassableLevel): Unit = {
-    if(renderer != null) {Platform.runLater { renderer.render(level, player.cx, player.cy) }}
+ //  Platform.runLater { 
+    	println("Client"+level)
+      renderer.render(level, player.cx, player.cy) 
+//   }
   }
 
 }

@@ -1,5 +1,5 @@
 package graphicGame
 
-class PassableEntity(val cx:Double, val cy:Double, val width:Double, val height:Double, val style: Int) extends Serializable {
+case class PassableEntity(val cx:Double, val cy:Double, val width:Double, val height:Double, val style: Int) extends Serializable {
  
 }
