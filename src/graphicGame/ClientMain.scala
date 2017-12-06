@@ -1,21 +1,10 @@
 package graphicGame
 
-import java.rmi.server.UnicastRemoteObject
 import java.rmi.Naming
-import scalafx.scene.control.TextInputDialog
-import scalafx.Includes.eventClosureWrapperWithParam
-import scalafx.Includes.jfxKeyEvent2sfx
-import scalafx.scene.Scene
-import scalafx.scene.canvas.Canvas
-import scalafx.scene.input.KeyCode
-import scalafx.scene.input.KeyEvent
-import scalafx.Includes._
+import java.rmi.server.UnicastRemoteObject
+
 import scalafx.application.JFXApp
-import scalafx.scene.Scene
-import scalafx.scene.canvas.Canvas
-import scalafx.animation.AnimationTimer
-import scalafx.scene.input.KeyEvent
-import scalafx.scene.input.KeyCode
+import scalafx.scene.control.TextInputDialog
 
 @remote trait RemoteClient {
   def name: String
