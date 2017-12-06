@@ -37,7 +37,7 @@ private var score1 = 10
     if (down) move(0, dt * speed)
     if (left) move(-dt * speed, 0)
     if (right) move(dt * speed, 0)
-
+    level.entities.foreach(e => this.minusPoints(e))
     //if clear, move otherwise nah
     //if using smooth motion -> (something * delay) -> speed constant -> delay 
 
@@ -58,7 +58,7 @@ private var score1 = 10
   }
 
   def minusPoints(e: Entity): Int = {
-    if (intersect(e)) this.score - 1
+    if (intersect(e) && (e.getStyle != 2)) this.score - 1
     score
   }
   

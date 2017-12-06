@@ -10,9 +10,9 @@ class Level(val maze: Maze, private var _entities: Seq[Entity]) {
   def updateAll(dt: Double): Unit = synchronized {
     entities.foreach(_.update(dt))
     _entities = _entities.filter(_.alive)
-     counter -= dt
+   
+    counter -= dt
      pollution()
-    
   }
   /*
    * @param entity

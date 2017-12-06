@@ -13,7 +13,8 @@ class Enemy(private var _x: Double, private var _y: Double, level: Level) extend
   var shockSpeed = 0.0
 
   def getStyle: Int = 1
-
+  
+//TODO: stop enemies from just chasing first player to connect
   def update(dt: Double): Unit = {
     val players = level.players
     if (players.nonEmpty) {
