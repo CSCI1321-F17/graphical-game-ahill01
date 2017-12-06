@@ -38,14 +38,11 @@ object Server extends UnicastRemoteObject with RemoteServer with App {
   }
 
   def sendLevel(plevel: PassableLevel): Unit = {
-//   println(plevel)
     clients.foreach { c =>
-    //  println(c)
       try { c.updateLevel(plevel) }
       catch {
         case ex: RemoteException =>
-          println("RMI exception")
-          //ex.printStackTrace
+          ex.printStackTrace
       }
     }
   }
@@ -57,7 +54,7 @@ object Server extends UnicastRemoteObject with RemoteServer with App {
     if (lastTime > 0) {
       val dt = (time - lastTime) * 1e-9
       level1.updateAll(dt)
-      if(time-lastUpdate > 3e7) {
+      if (time - lastUpdate > 3e7) {
         sendLevel(level1.buildLevel())
         lastUpdate = time
       }

@@ -13,4 +13,5 @@ package graphicGame
   def leftReleased:Unit
   def rightReleased:Unit
   def sReleased:Unit
+  def score:Int
 }

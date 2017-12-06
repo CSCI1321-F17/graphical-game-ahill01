@@ -15,6 +15,10 @@ import scalafx.event.ActionEvent
 import java.rmi.RemoteException
 import scalafx.collections.ObservableBuffer
 import scalafx.application.Platform
+import scalafx.scene.layout.BorderPane
+import scalafx.scene.control.TextArea
+import scalafx.scene.control.Label
+import scalafx.scene.paint.Color
 
 @remote trait RemoteClient {
   def updateLevel(pLevel: PassableLevel): Unit
@@ -44,10 +48,12 @@ object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
 
   stage = new JFXApp.PrimaryStage {
     title = "Graphic Game"
-
+    val scoreboard = new Label("Health Score: " + player.score)
+    scoreboard.layoutX = 20
+    scoreboard.layoutY = 20
+    scoreboard.textFill = Color.White
     scene = new Scene(800, 600) {
-
-      content = canvas
+      content = List(canvas, scoreboard)
 
       onKeyPressed = (ke: KeyEvent) => {
         ke.code match {
@@ -74,9 +80,8 @@ object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
   }
 
   def updateLevel(level: PassableLevel): Unit = {
-    println("Client A" + level)
+   
     Platform.runLater {
-      println("Client B" + level)
       renderer.render(level, player.cx, player.cy)
     }
   }

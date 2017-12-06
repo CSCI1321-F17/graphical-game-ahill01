@@ -1,7 +1,7 @@
 package graphicGame
 
 class Level(val maze: Maze, private var _entities: Seq[Entity]) {
-  
+  var counter = 0.0
   
   def entities = _entities
 
@@ -10,20 +10,46 @@ class Level(val maze: Maze, private var _entities: Seq[Entity]) {
   def updateAll(dt: Double): Unit = synchronized {
     entities.foreach(_.update(dt))
     _entities = _entities.filter(_.alive)
- //   var enemiesList = _entities.filter(_.getStyle != 2)
-  //  enemiesList.foreach(_.minusPoints(players.foreach))
+     counter -= dt
+     pollution()
+    
   }
+  /*
+   * @param entity
+   * adds entity to level's list of entities
+   */
   def +=(e: Entity): Unit = synchronized {
     _entities :+= e
   }
+  /*
+   * @param entity
+   * removes entity from to level's list of entities
+   */
   def -=(e: Entity): Unit = {
     val index = _entities.indexOf(e)
     _entities.patch(index, _entities, 1)
   }
 
+  /*
+ * checks if 2 things are intersecting
+ */
   def intersect(e: Entity, p: Entity): Boolean = {
     if (e.cx == p.cx && e.cy == p.cy) true else false
   }
+  
+  
+  /*
+   * adds Trash to the level @ pre-set intervals
+   */
+  
+   def pollution():Unit = {
+     if(counter < 0) new Trash(20,20,this)
+     counter = 2.0
+   }
+  
+  /*
+   * makes list of passable entities & builds a passable level from this level
+   */
   def buildLevel(): PassableLevel = {
     val pEntities = entities.map(n => new PassableEntity(n.cx, n.cy, n.width, n.height, n.getStyle))
     val pLevel = new PassableLevel(maze, pEntities)

@@ -30,11 +30,6 @@ class Bolt(private var _x: Double, private var _y: Double, level: Level) extends
     if (intersectX && intersectY) true else false
   }
   
- def minusPoints(target:Player):Unit = {
- if (intersect(target)) {
-  target.score-1
-  }
- }
 def getStyle:Int = 4
 
 def alive:Boolean = counter < 1.0
