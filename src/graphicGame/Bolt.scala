@@ -1,7 +1,12 @@
 package graphicGame
+/*
+ * Bolts are made by the Evil Eels, reduce your health points if they hit you
+ */
 
-
-class Bolt(private var _x: Double, private var _y: Double, level: Level, vx: Double, vy: Double) extends Entity {
+class Bolt(private var _x: Double, private var _y: Double, level: Level) extends Entity {
+ level += this
+  
+ var counter = 0.0
   def cx: Double = _x
   def cy: Double = _y
   def width: Double = 2
@@ -9,8 +14,14 @@ class Bolt(private var _x: Double, private var _y: Double, level: Level, vx: Dou
   def update(dt: Double): Unit = {
     _y -= dt
     _x -= dt
+    counter += dt
   }
- def move(dx: Double, dy: Double): Unit = {???}
+ override def move(dx: Double, dy: Double): Unit = {
+   if (level.maze.isClear(cx+dx, cy+dy, width, height)) {
+      _x += dx
+      _y += dy
+    }
+   }
   
  
   def intersect(other: Entity): Boolean = {
@@ -19,13 +30,14 @@ class Bolt(private var _x: Double, private var _y: Double, level: Level, vx: Dou
     if (intersectX && intersectY) true else false
   }
   
- def hitTarget(target:Player):Unit = {
+ def minusPoints(target:Player):Unit = {
  if (intersect(target)) {
   target.score-1
   }
  }
+def getStyle:Int = 4
 
-  
+def alive:Boolean = counter < 1.0
 
 }
 

@@ -4,30 +4,65 @@ import java.rmi.server.UnicastRemoteObject
 import java.rmi.Naming
 import java.rmi.registry.LocateRegistry
 import scala.collection.mutable
-
+import scala.collection.mutable
+import java.rmi.RemoteException
 
 @remote trait RemoteServer {
-  def connectPlayer(client:RemoteClient):Unit
-  def disconnect(client:RemoteClient):Unit
-  def updateLevel(clients:Seq[RemoteClient]):Unit
+  def connectPlayer(client: RemoteClient): RemotePlayer
+  def disconnect(client: RemoteClient): Unit
 }
 
-object Server extends UnicastRemoteObject with RemoteServer {
+object Server extends UnicastRemoteObject with RemoteServer with App {
   LocateRegistry.createRegistry(1099)
   Naming.rebind("GraphicGameServer", this)
-  
+
   private val clients = mutable.Buffer[RemoteClient]()
-  
-  def connectPlayer(client:RemoteClient):Unit = {
+  val maze = Maze(6, false, 20, 20, 0.6)
+  val level1 = new Level(maze, Nil)
+  new Enemy(20, 20, level1)
+  new Enemy(21, 20, level1)
+  new Enemy(22, 20, level1)
+  /*
+   * connects player to server, adds them to the maze
+   */
+  def connectPlayer(client: RemoteClient): RemotePlayer = {
     clients += client
+    new Player(15, 15, 2, 2, level1)
   }
-  def disconnect(client:RemoteClient):Unit = {
+  /*
+   * @param Client
+   * removes client from the list of clients if they disconnect or have gone inactive
+   */
+  def disconnect(client: RemoteClient): Unit = {
     clients -= client
   }
-  def addClients(clients:Seq[RemoteClient]):Unit = {
-  //   clients.foreach()
-  //  for (i <- clients.length) {
-  //      level += clients(i) 
-   ???
-   } 
-  } 
+
+  def sendLevel(plevel: PassableLevel): Unit = {
+//   println(plevel)
+    clients.foreach { c =>
+    //  println(c)
+      try { c.updateLevel(plevel) }
+      catch {
+        case ex: RemoteException =>
+          println("RMI exception")
+          //ex.printStackTrace
+      }
+    }
+  }
+
+  var lastTime = 0L
+  var lastUpdate = 0L
+  while (true) {
+    val time = System.nanoTime
+    if (lastTime > 0) {
+      val dt = (time - lastTime) * 1e-9
+      level1.updateAll(dt)
+      if(time-lastUpdate > 3e7) {
+        sendLevel(level1.buildLevel())
+        lastUpdate = time
+      }
+    }
+    lastTime = time
+
+  }
+}

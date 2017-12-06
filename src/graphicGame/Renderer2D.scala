@@ -6,6 +6,7 @@ import scalafx.scene.canvas.GraphicsContext
 import scalafx.scene.image.Image
 
 
+
 /**
  * This is a 2D renderer that with draw your game elements to a Canvas. You should change the
  * images to fit the style of your game. Also, alter the entities to match what you have in
@@ -20,8 +21,9 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
   private val wallImage = new Image("file:reefborder.png")
   private val playerImage = new Image("file:pythagaras.png")
   private val enemyImage = new Image("file:eel.png")
+  private val trashImage = new Image("file:trash.png")
   //private val generatorImage = new Image("file:images/generator.png")
-  private val bulletImage = new Image("file:lightning")
+  private val bulletImage = new Image("file:lightning.png")
 
   /**
    * These two methods are used to figure out where to draw things. They are used by the render.
@@ -38,7 +40,8 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
   /**
    * This method is called to render things to the screen.
    */
-  def render(level: Level, cx: Double, cy: Double): Unit = {
+  def render(level: PassableLevel, cx: Double, cy: Double): Unit = {
+     println("Renderer"+level)
     lastCenterX = cx
     lastCenterY = cy
 
@@ -60,10 +63,11 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
 
     // Draw entities
     for (e <- level.entities) {
-      val img = e match {
-        case p: Player => playerImage
-        case e: Enemy  => enemyImage
-        //case b: Bullet => bulletImage
+      val img = e.style match {
+        case 2 => playerImage
+        case 1  => enemyImage
+        case 4 => bulletImage
+        case 3 => trashImage
         // case g: Generator => generatorImage
       }
 
@@ -71,6 +75,7 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
         for (rx <- -1 to 1; ry <- -1 to 1)
           gc.drawImage(img, blocksToPixelsX(e.cx - e.width / 2 + rx * level.maze.width), blocksToPixelsY(e.cy - e.height / 2 + ry * level.maze.height), e.width * blockSize, e.height * blockSize)
       } else {
+        println(e.style, e.cy)
         gc.drawImage(img, blocksToPixelsX(e.cx - e.width / 2), blocksToPixelsY(e.cy - e.height / 2), e.width * blockSize, e.height * blockSize)
       }
     }

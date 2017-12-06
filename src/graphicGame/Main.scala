@@ -41,6 +41,7 @@ object Main extends JFXApp {
           case KeyCode.Down  => player.downPressed
           case KeyCode.Left  => player.leftPressed
           case KeyCode.Right => player.rightPressed
+          case KeyCode.S => player.sPressed
           case _             =>
         }
       }
@@ -52,6 +53,7 @@ object Main extends JFXApp {
           case KeyCode.Down  => player.downReleased
           case KeyCode.Left  => player.leftReleased
           case KeyCode.Right => player.rightReleased
+          case KeyCode.S => player.sReleased
           case _             =>
         }
       }
@@ -60,7 +62,7 @@ object Main extends JFXApp {
       var lastTime = 0L
 
       val timer = AnimationTimer(time => {
-        renderer.render(level1, player.cx, player.cy)
+        renderer.render(level1.buildLevel, player.cx, player.cy)
 
         // Code for doing smooth motion
         if (lastTime > 0) {
