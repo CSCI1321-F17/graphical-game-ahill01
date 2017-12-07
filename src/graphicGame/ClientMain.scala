@@ -45,10 +45,9 @@ object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
   val gc = canvas.graphicsContext2D
   val renderer = new Renderer2D(gc, 20)
   val player = server.connectPlayer(this)
-
+ val scoreboard = new Label("Health Score: " + player.score)
   stage = new JFXApp.PrimaryStage {
     title = "Graphic Game"
-    val scoreboard = new Label("Health Score: " + player.score)
     scoreboard.layoutX = 20
     scoreboard.layoutY = 20
     scoreboard.textFill = Color.White
@@ -83,6 +82,7 @@ object ClientMain extends UnicastRemoteObject with JFXApp with RemoteClient {
    
     Platform.runLater {
       renderer.render(level, player.cx, player.cy)
+      scoreboard.text = "Health Score: " + player.score
     }
   }
 

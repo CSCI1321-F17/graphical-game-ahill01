@@ -20,8 +20,7 @@ object Server extends UnicastRemoteObject with RemoteServer with App {
   val maze = Maze(6, false, 20, 20, 0.6)
   val level1 = new Level(maze, Nil)
   new Enemy(20, 20, level1)
-  new Enemy(21, 20, level1)
-  new Enemy(22, 20, level1)
+
   /*
    * connects player to server, adds them to the maze
    */

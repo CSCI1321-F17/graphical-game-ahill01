@@ -1,7 +1,7 @@
 package graphicGame
 
 import java.rmi.server.UnicastRemoteObject
-//TODO: Figure out how to change score, where to call intersect
+
 
 class Player(private var _x: Double, private var _y: Double, val width: Double, val height: Double, level: Level) extends UnicastRemoteObject with Entity with RemotePlayer {
   level += this
@@ -12,7 +12,7 @@ private var score1 = 10
   private var right = false
   private var s = false
   def score =  score1
-  
+  def damageplayer:Boolean = false
   def getStyle: Int = 2
 
   def cx = _x
@@ -52,14 +52,13 @@ private var score1 = 10
   def alive: Boolean = if(score > 0) true else false
 
   def intersect(other: Entity): Boolean = {
-    val intersectX = (cx - other.cx).abs < (width + other.width) / 2
-    val intersectY = (cy - other.cy).abs < (height + other.height) / 2
-    if (intersectX && intersectY) true else false
+    val intersectX = (cx - other.cx).abs
+    val intersectY = (cy - other.cy).abs
+    if ((intersectX < (width + other.width) / 2) && (intersectY < (height + other.height) / 2)) true else false
   }
 
-  def minusPoints(e: Entity): Int = {
-    if (intersect(e) && (e.getStyle != 2)) this.score - 1
-    score
+  def minusPoints(e: Entity): Unit = {
+    if (intersect(e) && e.damageplayer) this.score1 -= 1
   }
   
 }

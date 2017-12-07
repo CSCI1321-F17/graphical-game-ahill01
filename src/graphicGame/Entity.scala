@@ -9,6 +9,7 @@ trait Entity {
   def move(dx: Double, dy: Double): Unit
   def getStyle:Int
   def alive:Boolean
+  def damageplayer:Boolean
 }
 object Entity {
  def intersect(e1:Entity, e2:Entity):Boolean = {

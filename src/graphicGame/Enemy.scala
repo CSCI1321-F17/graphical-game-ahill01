@@ -2,7 +2,7 @@ package graphicGame
 
 class Enemy(private var _x: Double, private var _y: Double, level: Level) extends Entity {
   /*
-   * enemy is an electric eel that sends out bolts of lightning if you get too close
+   * enemy is an Evil Electric Eel that sends out bolts of lightning if you get too close
    */
   level += this
   def cx: Double = _x
@@ -11,6 +11,13 @@ class Enemy(private var _x: Double, private var _y: Double, level: Level) extend
   def height: Double = 2
   val speed = 3
   var shockSpeed = 0.0
+  var counter = 0.0
+  
+  def damageplayer:Boolean = {
+    val ret = counter < 0
+    if(ret) {counter = 3.0}
+    ret
+  }
 
   def getStyle: Int = 1
   
@@ -18,7 +25,7 @@ class Enemy(private var _x: Double, private var _y: Double, level: Level) extend
   def update(dt: Double): Unit = {
     val players = level.players
     if (players.nonEmpty) {
-      val p = players.head
+      val p = players.minBy(p => (p.cx - cx).abs + (p.cy - cy).abs)
       val up = level.bfs(cx.toInt, (cy - 1).toInt, p.cx.toInt, p.cy.toInt)
       val down = level.bfs(cx.toInt, (cy + 1).toInt, (p.cx).toInt, (p.cy).toInt)
       val left = level.bfs((cx + 1).toInt, cy.toInt, p.cx.toInt, p.cy.toInt)
@@ -28,6 +35,7 @@ class Enemy(private var _x: Double, private var _y: Double, level: Level) extend
       else if (left <= right && left <= up && left <= down) move(dt * speed, 0)
       else move(-dt * speed, 0)
       shockSpeed -=dt
+      counter -= dt
       if ((up < 2 || down < 2 || left < 2 || right < 2)&& shockSpeed < 0) shock()
     }
   }
@@ -45,11 +53,11 @@ class Enemy(private var _x: Double, private var _y: Double, level: Level) extend
     }
   }
   /*
-   * creates a new bolt of lightening, adds it to the levels' entities
+   * creates a new bolt of lightening, originating from same location as Evil Eel adds it to the levels' entities
    * motion is random
    */
   def shock(): Unit = {
-    val z = new Bolt(this.cx, this.cy, this.level)
+    val z = new Bolt(this.cx, this.cy, this.level,this)
     z.move(math.random(), math.random())
     shockSpeed = 1.0
   }

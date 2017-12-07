@@ -3,7 +3,7 @@ package graphicGame
  * Bolts are made by the Evil Eels, reduce your health points if they hit you
  */
 
-class Bolt(private var _x: Double, private var _y: Double, level: Level) extends Entity {
+class Bolt(private var _x: Double, private var _y: Double, level: Level, spawnEel:Enemy) extends Entity {
  level += this
  var hit = false 
  var counter = 0.0
@@ -15,6 +15,7 @@ class Bolt(private var _x: Double, private var _y: Double, level: Level) extends
    _y -= dt
    _x -= dt
   counter += dt
+this.hitSomething
   }
  override def move(dx: Double, dy: Double): Unit = {
    if (level.maze.isClear(cx+dx, cy+dy, width, height)) {
@@ -23,25 +24,34 @@ class Bolt(private var _x: Double, private var _y: Double, level: Level) extends
     } else alive == false
    }
   
+ /*
+   * runs through list of entities, checks if it overlaps with any of them, then sets hit = true
+   */
  def hitSomething():Boolean = {
-   for (i <- 0 until this.level.entities.length) {
-    if(this.intersect(this.level.entities(i))) hit |= true
+   for (p <- this.level.players) {
+    if(this.intersect(p)) hit |= true
   }
  hit
  }
  
-  def intersect(other: Entity): Boolean = {
+ /*
+  * @param: Entity
+  * @return boolean, true if intersecting false if not
+  */
+ def intersect(other: Entity): Boolean = {
     val intersectX = (cx - other.cx).abs < (width + other.width) / 2
     val intersectY = (cy - other.cy).abs < (height + other.height) / 2
     if (intersectX && intersectY) true else false
   }
   
 def getStyle:Int = 4
-/*
- * Bolts dissappear when they hit another entity 
- */
-def alive:Boolean = if((counter < 3.0)|| this.hitSomething == false) true else false
 
+/*
+ * Bolts dissappear when they hit another entity or have been around for at least 3 time units
+ */
+def alive:Boolean = this.hitSomething == false && counter < 3.0
+
+def damageplayer:Boolean = true
 }
 
 object Bolt {

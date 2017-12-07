@@ -22,7 +22,6 @@ class Renderer2D(gc: GraphicsContext, blockSize: Double) {
   private val playerImage = new Image("file:pythagaras.png")
   private val enemyImage = new Image("file:eel.png")
   private val trashImage = new Image("file:trash.png")
-  //private val generatorImage = new Image("file:images/generator.png")
   private val bulletImage = new Image("file:lightning.png")
 
   /**
